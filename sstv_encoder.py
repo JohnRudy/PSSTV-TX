@@ -1,5 +1,5 @@
 from typing import AnyStr
-from bin.lib.modes import Robot36, WraaseSC2_120
+from bin.lib.modes import Robot36, WraaseSC2_120, WraaseSC2_180
 from bin.lib.sstv.sutils import MODE
 from bin.utils import AudioGenerator as ag
 from bin.utils import ImageAsArray
@@ -30,7 +30,7 @@ def main() -> None:
 
     # This will be taken away once a encoder manager is done.
     # ----------------------------------
-    mode = MODE.WC_SC2_120
+    mode = MODE.WC_SC2_180
 
     for image in all_images:
         image_array = ImageAsArray.to_array(str(image), mode)
@@ -45,6 +45,10 @@ def main() -> None:
         if mode == MODE.WC_SC2_120:
             wsc2120 = WraaseSC2_120(image_array)
             hertz, duration = wsc2120.encode()
+
+        if mode == MODE.WC_SC2_180:
+            wsc2180 = WraaseSC2_180(image_array)
+            hertz, duration = wsc2180.encode()
      # ----------------------------------
         print(" ")
 

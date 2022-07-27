@@ -12,7 +12,6 @@ class SSTVSettings():
         name:str = 'R36'
         VISCode:int=8 # as decimal
         image_size:tuple = (320,240)
-
         # More than likely, these are wrong        
         sync_ms:dict[str,int] = {
             'sync pulse' : 9,
@@ -36,7 +35,6 @@ class SSTVSettings():
         name:str = 'WSC2120'
         VISCode:int=63 # as decimal
         image_size:tuple = (320,256)
-        
         # These might be wrong as well. 
         sync_ms:dict[str,int] = {
             'sync pulse' : 5,
@@ -52,8 +50,6 @@ class SSTVSettings():
         name:str = 'WSC2180'
         VISCode:int=55 # as decimal
         image_size:tuple = (320,256)
-
-        # These might be wrong as well. 
         sync_ms:dict[str,int] = {
             'sync pulse' : 5.5225,
             'sync porch' : 0.5
@@ -65,6 +61,23 @@ class SSTVSettings():
         _total_time_ms:float = 182
         pixle_time = 0.7344
 
+    class Martin2Settings(BaseModel):
+        name:str = 'M2'
+        VISCode:int=40 # as decimal
+        image_size:tuple = (320,256)
+        sync_ms:dict[str,int] = {
+            'sync pulse' : 4.862,
+            'sync porch' : 0.572,
+            'separator' : 0.572,
+        }
+        sync_hz:dict[str,int] = {
+            'sync pulse' : 1200,
+            'sync porch' : 1500,
+            'separator' : 1500,
+        }
+        _total_time_ms:float = 58060
+        pixel_time:float = 0.2288
+
 # This might be unnecessary for this purpose
 # But it makes life a little easier. 
 @lru_cache(maxsize=1)
@@ -75,3 +88,5 @@ def get_settings(mode:MODE):
         return SSTVSettings.WSC2120Settings()
     if mode==MODE.WC_SC2_180:
         return SSTVSettings.WSC2180Settings()
+    if mode==MODE.MARTIN2:
+        return SSTVSettings.Martin2Settings()

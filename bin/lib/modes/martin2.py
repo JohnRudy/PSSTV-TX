@@ -29,14 +29,13 @@ class Martin2(BaseEncoder):
         self.duration.append(30)
         
         for row in trange(settings.image_size[1]):
-            y:list[float] = []
-            ry:list[float] = []
-            by:list[float] = []
+            r:list[float] = []
+            g:list[float] = []
+            b:list[float] = []
             for column in range(settings.image_size[0]):
-                YRyBy = self.image[row,column]
-                y.append(YRyBy[0])
-                ry.append(YRyBy[1])
-                by.append(YRyBy[2])
+                r.append(self.image[row,column][0])
+                g.append(self.image[row,column][1])
+                b.append(self.image[row,column][2])
 
             self.hertz.append(settings.sync_hz['sync pulse'])
             self.hertz.append(settings.sync_hz['sync porch'])
@@ -44,21 +43,21 @@ class Martin2(BaseEncoder):
             self.duration.append(settings.sync_ms['sync porch'])
 
 
-            for value in y:
+            for value in g:
                 self.hertz.append(SSTV.float_to_hertz(value))
                 self.duration.append(settings.pixel_time)
 
             self.hertz.append(settings.sync_hz['separator'])
             self.duration.append(settings.sync_ms['separator'])
 
-            for value in ry:
+            for value in r:
                 self.hertz.append(SSTV.float_to_hertz(value))
                 self.duration.append(settings.pixel_time)
 
             self.hertz.append(settings.sync_hz['separator'])
             self.duration.append(settings.sync_ms['separator'])
 
-            for value in by:
+            for value in b:
                 self.hertz.append(SSTV.float_to_hertz(value))
                 self.duration.append(settings.pixel_time)
 

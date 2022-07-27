@@ -1,9 +1,4 @@
 from typing import Tuple
-from enum import Enum
-
-class MODE(Enum):
-    ROBOT_36='R36'
-    WC_SC2_120='WSC2120'
 
 class SSTV:
     def __init__(cls) -> None:

@@ -1,7 +1,7 @@
 from PIL import Image
 import numpy as np
 from numpy import ndarray
-from bin.lib.sstv.sutils import MODE
+from bin.lib.modes import MODE
 from bin.settings import get_settings
 
 class ImageAsArray:

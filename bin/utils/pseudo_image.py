@@ -26,9 +26,9 @@ class PseudoImage:
         width = get_settings(mode).image_size[0]
         height = get_settings(mode).image_size[1]
 
-
-        for value in self.image:
-            value /= 1.3
+        for row in range(len(self.image)):
+            for column in range(len(self.image[row])):
+                self.image[row,column] = self.image[row,column] / 1.5
 
         # Which rows will get "messed up"
         messed_up_lines:list[tuple] = []

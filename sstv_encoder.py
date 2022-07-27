@@ -30,7 +30,7 @@ def main() -> None:
 
     # This will be taken away once a encoder manager is done.
     # ----------------------------------
-    mode = MODE.MARTIN2
+    mode = MODE.ROBOT_36
 
     for image in all_images:
         image_array = ImageAsArray.to_array(str(image), mode)

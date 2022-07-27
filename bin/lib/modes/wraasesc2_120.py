@@ -35,34 +35,34 @@ class WraaseSC2_120(BaseEncoder):
         self.duration.append(settings.sync_ms['sync pulse'])
         
         for row in trange(settings.image_size[1]):
-            y:list[float] = []
-            ry:list[float] = []
-            by:list[float] = []
+            r:list[float] = []
+            g:list[float] = []
+            b:list[float] = []
 
             for column in range(settings.image_size[0]):
-                YRyBy = SSTV.to_YRyBy(self.image[row,column])
-                y.append(YRyBy[0])
-                ry.append(YRyBy[1])
-                by.append(YRyBy[2])
+                r.append(self.image[row,column][0])
+                g.append(self.image[row,column][1])
+                b.append(self.image[row,column][2])
 
             # porch
             self.hertz.append(1500)
             self.duration.append(0.5)
 
-            for value in y:
+            for value in r:
                 self.hertz.append(SSTV.float_to_hertz(value))
                 self.duration.append(settings.redblue_pixel_ms)
 
-            for value in ry:
+            for value in g:
                 self.hertz.append(SSTV.float_to_hertz(value))
                 self.duration.append(settings.green_pixel_ms)
 
-            for value in by:
+            for value in b:
                 self.hertz.append(SSTV.float_to_hertz(value))
                 self.duration.append(settings.redblue_pixel_ms)
 
             self.hertz.append(settings.sync_hz['sync pulse'])
             self.duration.append(settings.sync_ms['sync pulse'])
+
         return self.hertz, self.duration
 
 if __name__ == '__main__':

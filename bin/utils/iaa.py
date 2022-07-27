@@ -16,7 +16,7 @@ class ImageAsArray:
             img = img.resize(size,resample=0,box=None)
         
         img = img.convert('RGB')
-        img = np.asarray(img,dtype=np.float32)
+        img = np.asarray(img,dtype=np.int32)
         return img
 
 if __name__ == '__main__':

@@ -50,9 +50,10 @@ You can check these image sizes inside `./bin/settings/sstv_settings.py` for you
 
 Currently, somewhat working encoders
 
-* Robot36 - has a header and leading tone issue
-* WraaseSC2-120 - Timings are off
-* WraaseSC2-180 - Timings are off
+* Robot36
+* WraaseSC2-120
+* WraaseSC2-180
+* Martin 2
 
 ## Usage
 

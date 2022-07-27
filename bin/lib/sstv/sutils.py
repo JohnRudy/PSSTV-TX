@@ -8,7 +8,10 @@ class MODE(Enum):
 class SSTV:
     def __init__(cls) -> None:
         pass
-    
+
+    """
+    Headers and leading tones
+    """
     @classmethod
     def vis_code(cls, vis:int) -> str:
         """
@@ -16,7 +19,7 @@ class SSTV:
         """
         # TODO:
         # These might be 7 bit... 
-        return format(vis,'08b')
+        return format(vis,'07b')
     
     @classmethod
     def initial(cls) -> Tuple:
@@ -39,40 +42,51 @@ class SSTV:
         TODO: Change this to be viscode spesific?
         """
         return [1200, 30]
-    
-    @classmethod
-    def parity(cls) -> list[int]:
-        """
-        The parity bit
-        TODO: Change this to be viscode spesific 
-        """
-        return [1100,30]
 
+    """
+    Color values
+    """
     @classmethod
-    def to_chrominance(cls, red:float=0.0,green:float=0.0,blue:float=0.0,luminance:float=0.0) -> list[float]:
+    def to_luminance(cls, rgb:list[float]) -> float:
         """
-        Returns chrominance values as a list of floats [R,G,B]
+        Black and white
+        Returns the luminance value of given rgb pixel values.
         """
-        chrominance:list[float] = [0.0, 0.0, 0.0]
-        chrominance[0] = red - luminance
-        chrominance[1] = blue - luminance
-        chrominance[2] = luminance - 0.51 * (red - luminance) - 0.19 * (blue - luminance)
-        return chrominance
-    
-    @classmethod
-    def to_luminance(cls, red:float=0.0,green:float=0.0,blue:float=0.0) -> float:
-        """
-        Returns the luminance value of given rgb pixel values
-        """
-        luminance = float((0.3 * red) + (0.59 * green) + (0.11 * blue))
+        luminance = float((0.3 * rgb[0]) + (0.59 * rgb[1]) + (0.11 * rgb[2]))
         return luminance
 
     @classmethod
-    def value_to_hertz(cls, value:float):
+    def to_YCrCb(cls, rgb:list[float],luminance:float=0.0) -> list[float]:
         """
-        Turns given rgb or ycrcb value to hertz
+        Returns YCrCb values as a list of floats [R,G,B]
         """
-        hertz = (800 * value) + 1500
+        YCrCb:list[float] = [0.0, 0.0, 0.0]
+        YCrCb[0] = rgb[0] - luminance
+        YCrCb[1] = luminance - 0.51 * (rgb[0] - luminance) - 0.19 * (rgb[2] - luminance)
+        YCrCb[2] = rgb[2] - luminance
+        return YCrCb
+    
+    @classmethod
+    def to_YRyBy(cls, rgb:list[float]) -> list[float]:
+        """
+        Takes rgb values band coverts it to a YRyBy format.
+        """
+        Y = 16.0 + (.003906 * ((65.738 * rgb[0]) + (129.057 * rgb[1]) + (25.064 * rgb[2])))
+        RY = 128.0 + (.003906 * ((112.439 * rgb[0]) + (-94.154 * rgb[1]) + (-18.285 * rgb[2])))
+        BY = 128.0 + (.003906 * ((-37.945 * rgb[0]) + (-74.494 * rgb[1]) + (112.439 * rgb[2])))
+        YRyBy:list[float] = [Y, RY, BY]
+        return YRyBy
+
+
+    """
+    Helper methods
+    """
+    @classmethod
+    def float_to_hertz(cls, value:float) -> float:
+        """
+        Turns given float between 0-1 to hertz value in range of 1500-2300
+        """
+        hertz = (800 * value/255) + 1500
         return hertz
 
     @classmethod
@@ -83,7 +97,7 @@ class SSTV:
         list_hertz:list[float] = []
         list_durations:list[float] = []
         for point in line:
-            hertz = SSTV.value_to_hertz(point)
+            hertz = cls.float_to_hertz(point)
             list_hertz.append(hertz)
             list_durations.append(timing_for_pixel)
         return list_hertz, list_durations
@@ -94,7 +108,7 @@ class SSTV:
         Turns the vis code into a list of hertz and durations
         """
         # TODO:
-        # Different headers might have different values for these...
+        # Different encoders might have different values for these...
         hertz:list[float] = []
         duration:list[float] = []
         for i in vis_code:

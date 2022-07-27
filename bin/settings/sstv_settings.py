@@ -5,7 +5,7 @@ from tqdm import tqdm, trange
 from bin.lib.sstv import MODE
 
 # TODO:
-# Find something that actually shows right syncs and timings. 
+# Find something that actually shows right syncs and timings.
 
 class SSTVSettings():
     class Robot36Settings(BaseModel):
@@ -29,13 +29,8 @@ class SSTVSettings():
             'porch' : 1900,
         }
         _total_time_ms:float = 36000
-        _total_sync_times:float = (
-            (sync_ms['even separator'] * image_size[1]) + 
-            (sync_ms['porch'] * image_size[1]) +
-            sync_ms['sync pulse']
-        )
-        y_pixel_ms:float = (_total_time_ms - _total_sync_times) / image_size[1] / 8 * 4 / image_size[0]
-        rb_pixel_ms:float = (_total_time_ms - _total_sync_times) / image_size[1] / 8 * 4 / image_size[0]
+        y_pixel_ms:float = 88 / image_size[0]
+        rb_pixel_ms:float = 44 / image_size[0]
 
     class WCSC2120Settings(BaseModel):
         name:str = 'WSC2120'
@@ -49,10 +44,9 @@ class SSTVSettings():
         sync_hz:dict[str,int] = {
             'sync pulse' : 1200,
         }
-        _total_time_ms:float = 120000
-        _total_sync_times:float = sync_ms['sync pulse'] * image_size[1]
-        green_pixel_ms:float = (_total_time_ms - _total_sync_times) / image_size[1] / 8 * 4 / image_size[0]
-        redblue_pixel_ms:float = (_total_time_ms - _total_sync_times) / image_size[1] / 8 * 2 / image_size[0]
+        _total_time_ms:float = 12000
+        green_pixel_ms:float = 235 / 320
+        redblue_pixel_ms:float = 117 / 320
 
 # This might be unnecessary for this purpose
 # But it makes life a little easier. 

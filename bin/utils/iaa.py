@@ -17,8 +17,6 @@ class ImageAsArray:
         
         img = img.convert('RGB')
         img = np.asarray(img,dtype=np.float32)
-        for i in img:
-            i /= 255
         return img
 
 if __name__ == '__main__':

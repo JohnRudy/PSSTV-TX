@@ -26,10 +26,9 @@ class PseudoImage:
         width = get_settings(mode).image_size[0]
         height = get_settings(mode).image_size[1]
 
-        # General quality changes
+
         for value in self.image:
-            value *= 128 # "true color"
-            value += 10 # Brightness
+            value /= 1.3
 
         # Which rows will get "messed up"
         messed_up_lines:list[tuple] = []
@@ -107,10 +106,9 @@ class PseudoImage:
         for row in range(height-1):
             for column in range(width-1):        
                 for line in skewed_lines:
-                    if row > line[0] and row < line[1]: 
-                        if row >= line[0] and row <= line[1]:
-                            amount = int((line[1] - row) / 10)
-                            self.image[row,column] = self.image[row,(column + amount) % width]
+                    if row >= line[0] and row <= line[1]:
+                        amount = int((line[1] - row) / 10) 
+                        self.image[row,column] = self.image[row,(column + amount ) % width]
 
 
 

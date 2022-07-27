@@ -1,5 +1,6 @@
 from typing import Tuple, List
-from bin.lib.sstv import SSTV, MODE
+from bin.lib.modes import MODE
+from bin.lib.sstv import SSTV
 from numpy import array, ndarray
 from tqdm import tqdm, trange
 from bin.settings import get_settings

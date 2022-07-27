@@ -1,6 +1,6 @@
 from typing import AnyStr
 from bin.lib.modes import Robot36, WraaseSC2_120, WraaseSC2_180
-from bin.lib.sstv.sutils import MODE
+from bin.lib.modes import MODE
 from bin.utils import AudioGenerator as ag
 from bin.utils import ImageAsArray
 from bin.lib.sstv import PseudoImage

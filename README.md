@@ -52,6 +52,7 @@ Currently, somewhat working encoders
 
 * Robot36 - has a header and leading tone issue
 * WraaseSC2-120 - Timings are off
+* WraaseSC2-180 - Timings are off
 
 ## Usage
 
